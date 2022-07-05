@@ -1,0 +1,8 @@
+# dir
+.venv
+__pycache__
+
+# file
+.python-version
+
+# exception
