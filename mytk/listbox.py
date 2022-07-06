@@ -1,29 +1,50 @@
 import tkinter as tk
 
 class ScrollFrame(tk.Frame):
-    def __init__(self, master=None):
+    def __init__(self, master=None, hsize:int=20, wsize:int=20):
         super().__init__(master)
         
         self.value = tk.StringVar()
         
-        self.listbox = tk.Listbox(self, listvariable=self.value, height=20)
+        self.listbox = tk.Listbox(self, listvariable=self.value, height=hsize, width=wsize)
         self.scrollbar = tk.Scrollbar(self, orient=tk.VERTICAL, command=self.listbox.yview)
         self.listbox.configure(yscrollcommand=self.scrollbar.set)
 
         self.listbox.grid(row=0, column=0)
-        self.scrollbar.grid(row=0, column=1)
-    
+        self.scrollbar.grid(row=0, column=1, sticky="ns")
+
+        self.listbox.bind("<Double-Button-1>", self.select_data)
+        self.callback = None
+
     def set_data(self, data:list):
         for d in data:
             self.listbox.insert('end', str(d))
 
+
     def delete_data(self):
         self.listbox.delete(0, 'end')
 
-if __name__ == "__main__":
-    app = tk.Tk()
 
-    frame = ScrollFrame(app)
+    def select_data(self, *args):
+        curr_value = self.listbox.get(self.listbox.curselection())
+        if self.callback is None:
+            print(curr_value)
+        else:
+            self.callback(curr_value)
+
+
+    def set_callback(self, callback):
+        self.callback = callback
+
+
+if __name__ == "__main__":
+
+    def print_value(value):
+        print(f"CLICK:{value}")
+
+    app = tk.Tk()
+    frame = ScrollFrame(app, hsize=5, wsize=100)
     frame.pack()
     frame.set_data([str(i) for i in range(10)])
+    frame.set_callback(print_value)
     app.mainloop()
