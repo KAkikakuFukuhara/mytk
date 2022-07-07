@@ -7,11 +7,14 @@ class ScrollFrame(tk.Frame):
         self.value = tk.StringVar()
         
         self.listbox = tk.Listbox(self, listvariable=self.value, height=hsize, width=wsize)
-        self.scrollbar = tk.Scrollbar(self, orient=tk.VERTICAL, command=self.listbox.yview)
-        self.listbox.configure(yscrollcommand=self.scrollbar.set)
+        self.scrollbary = tk.Scrollbar(self, orient=tk.VERTICAL, command=self.listbox.yview)
+        self.listbox.configure(yscrollcommand=self.scrollbary.set)
+        self.scrollbarx = tk.Scrollbar(self, orient=tk.HORIZONTAL, command=self.listbox.xview)
+        self.listbox.configure(xscrollcommand=self.scrollbarx.set)
 
         self.listbox.grid(row=0, column=0)
-        self.scrollbar.grid(row=0, column=1, sticky="ns")
+        self.scrollbary.grid(row=0, column=1, sticky="ns")
+        self.scrollbarx.grid(row=1, column=0, sticky="we")
 
         self.listbox.bind("<Double-Button-1>", self.select_data)
         self.callback = None
