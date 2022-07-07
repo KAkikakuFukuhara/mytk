@@ -29,6 +29,7 @@ class CanvaCustom(tk.Canvas):
 
 
     def set_image(self, rgb_img:np.ndarray):
+        self.src_img = rgb_img
         self.imgtk = self.resize_img2canvas(rgb_img)
         self.create_image((self.cx, self.cy), image=self.imgtk)
 
@@ -43,6 +44,10 @@ class CanvaCustom(tk.Canvas):
         out_hsize = int(self.resize_ratio * src_hsize)
         out_img = Image.fromarray(rgb_img).resize((out_wsize, out_hsize))
         return ImageTk.PhotoImage(out_img)
+
+
+    def get_image(self) -> np.ndarray:
+        return self.src_img
 
 
     def click_canvas(self, event:tk.Event):
