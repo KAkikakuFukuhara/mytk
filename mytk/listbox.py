@@ -22,6 +22,7 @@ class ScrollFrame(tk.Frame):
     def set_data(self, data:list):
         for d in data:
             self.listbox.insert('end', str(d))
+        self.listbox.xview_moveto(1.0)
 
 
     def delete_data(self):
