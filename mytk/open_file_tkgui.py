@@ -22,12 +22,24 @@ def get_file_path_not_gui(dir_path:str, file_suffix="pickle") -> str:
     root.destroy()
     return file_path
 
+
+def get_dir_path(dir_path:str) -> str:
+    dir_path = filedialog.askdirectory(initialdir=dir_path)
+    if type(dir_path) != str:
+        dir_path = None
+    return dir_path
+
+
 def test():
     file_dir_path = os.path.abspath(os.path.dirname(__file__))
     load_dir_path = f"{file_dir_path}/source"
     res = get_file_path(load_dir_path)
     print(res)
-    
+
+def test_get_dir_path():
+    dir_path = get_dir_path("./")
+    print(dir_path)
+
 if __name__ == "__main__":
-    test()
+    test_get_dir_path()
 
