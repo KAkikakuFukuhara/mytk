@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "mytk"
-version = "0.1.0"
+version = "0.2.0-dev"
 description = ""
 authors = ["Kenta Fukuhara <kakikaku.fukuhara@gmail.com>"]
 
