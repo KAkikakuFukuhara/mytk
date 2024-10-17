@@ -1,8 +1,15 @@
-# dir
-.venv
+# python
 __pycache__
 
-# file
+# venv
+.venv
+
+# pyenv 
 .python-version
+
+# poetry
+poetry.lock
+
+# file
 
 # exception
