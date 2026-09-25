@@ -19,10 +19,15 @@ class ScrollFrame(tk.Frame):
         self.listbox.bind("<Double-Button-1>", self.select_data)
         self.callback = None
 
+        ## 現在のリストボックスの選択インデックス
+        self._curidx = 0
+
+
     def set_data(self, data:list):
         for d in data:
             self.listbox.insert('end', str(d))
         self.listbox.xview_moveto(1.0)
+        self._curidx = 0
 
 
     def delete_data(self):
@@ -30,7 +35,9 @@ class ScrollFrame(tk.Frame):
 
 
     def select_data(self, *args):
-        curr_value = self.listbox.get(self.listbox.curselection())
+        curselection = self.listbox.curselection()
+        self._curidx = curselection[0]
+        curr_value = self.listbox.get(curselection)
         if self.callback is None:
             print(curr_value)
         else:
@@ -39,6 +46,35 @@ class ScrollFrame(tk.Frame):
 
     def set_callback(self, callback):
         self.callback = callback
+
+
+    def select_element(self, idx: int):
+        if 0 <= idx < self.listbox.size():
+            self.listbox.select_clear(self._curidx)
+            self.listbox.activate(idx)
+            self.listbox.select_set(idx)
+
+
+    def move_idx(self, idx: int):
+        self.select_element(self._curidx)
+        self.select_element(idx)
+        self.select_data()
+
+
+    def set_key_scroll_down(self, key:str):
+        """
+        key: str
+        examples: <KeyPress-s>
+        """
+        self.listbox.bind(key, lambda x: self.move_idx(self._curidx+1))
+
+
+    def set_key_scroll_up(self, key:str):
+        """
+        key: str
+        examples: <KeyPress-s>
+        """
+        self.listbox.bind(key, lambda x: self.move_idx(self._curidx-1))
 
 
 if __name__ == "__main__":
